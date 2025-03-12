@@ -1,0 +1,98 @@
+body {
+    font-family: 'Inter', 'Roboto', Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background-color: #121212;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevent scrolling */
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+    max-width: 100%; /* Allow full width */
+  }
+  
+  h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #ffffff;
+    display: none; /* Hide the heading to maximize space */
+  }
+  
+  #timezones {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%; /* Take full height */
+    overflow-x: auto; /* Allow horizontal scrolling if needed */
+    gap: 0;
+  }
+  
+  .timezone {
+    flex: 1;
+    min-width: 120px;
+    height: 100%; /* Full height */
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center all content vertically */
+    text-align: center;
+    transition: transform 0.2s;
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  
+  .timezone:hover {
+    transform: translateY(-2px);
+  }
+  
+  /* Content group that contains all elements centered in the column */
+  .content-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px; /* Space between elements */
+  }
+  
+  .timezone-time {
+    font-size: 42px;
+    font-weight: bold;
+    line-height: 1;
+  }
+  
+  .day-indicator {
+    font-size: 14px;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+    width: 100%;
+    text-align: center;
+  }
+  
+  .timezone-name {
+    font-weight: bold;
+    font-size: 14px;
+    text-align: center;
+    max-width: 90%;
+  }
+  
+  /* Color scheme based on the image */
+  .honolulu { background-color: #e6ebd1; color: #333333; }
+  .anchorage { background-color: #c2e5c9; color: #333333; }
+  .salt-lake { background-color: #fcd153; color: #333333; }
+  .georgetown { background-color: #f9a357; color: #333333; }
+  .london { background-color: #9a5a96; color: #ffffff; }
+  .abu-dhabi { background-color: #1c1656; color: #ffffff; }
+  .kathmandu { background-color: #0a0c20; color: #ffffff; }
+  .jakarta { background-color: #141c37; color: #ffffff; }
+  .tokyo { background-color: #1c2d4e; color: #ffffff; }
+  .auckland { background-color: #4ba3a9; color: #ffffff; }
