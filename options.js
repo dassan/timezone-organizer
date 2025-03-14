@@ -140,22 +140,133 @@ document.addEventListener('DOMContentLoaded', function() {
     window.currentTimeZones = timeZones;
   }
 
-  // Initialize color pickers
+  // Alternative implementation using datalist for searchable dropdown
+  function populateTimezoneDatalist() {
+    const timezoneInput = document.getElementById('timezone');
+    const timezoneDatalist = document.getElementById('timezoneList');
+    if (!timezoneInput || !timezoneDatalist) return;
+    
+    // Clear existing options
+    timezoneDatalist.innerHTML = '';
+    
+    // List of all IANA timezones (this is a simplified list, you might want to use a more complete one)
+    const timezones = [
+      'Pacific/Midway',
+      'Pacific/Honolulu',
+      'America/Anchorage',
+      'America/Los_Angeles',
+      'America/Denver',
+      'America/Chicago',
+      'America/New_York',
+      'America/Caracas',
+      'America/Santiago',
+      'America/Sao_Paulo',
+      'Atlantic/Azores',
+      'Europe/London',
+      'Europe/Paris',
+      'Europe/Moscow',
+      'Asia/Tehran',
+      'Asia/Dubai',
+      'Asia/Kabul',
+      'Asia/Karachi',
+      'Asia/Kolkata',
+      'Asia/Kathmandu',
+      'Asia/Dhaka',
+      'Asia/Rangoon',
+      'Asia/Bangkok',
+      'Asia/Shanghai',
+      'Asia/Tokyo',
+      'Australia/Sydney',
+      'Pacific/Noumea',
+      'Pacific/Auckland'
+    ];
+    
+    // Add all timezones to the datalist
+    timezones.forEach(tz => {
+      const option = document.createElement('option');
+      option.value = tz;
+      timezoneDatalist.appendChild(option);
+    });
+  }
+
+  // Populate the timezone dropdown
+  function populateTimezoneDropdown() {
+    const timezoneSelect = document.getElementById('timezone');
+    if (!timezoneSelect) return;
+    
+    // Clear existing options
+    timezoneSelect.innerHTML = '';
+    
+    // List of all IANA timezones (this is a simplified list, you might want to use a more complete one)
+    const timezones = [
+      'Pacific/Midway',
+      'Pacific/Honolulu',
+      'America/Anchorage',
+      'America/Los_Angeles',
+      'America/Denver',
+      'America/Chicago',
+      'America/New_York',
+      'America/Caracas',
+      'America/Santiago',
+      'America/Sao_Paulo',
+      'Atlantic/Azores',
+      'Europe/London',
+      'Europe/Paris',
+      'Europe/Moscow',
+      'Asia/Tehran',
+      'Asia/Dubai',
+      'Asia/Kabul',
+      'Asia/Karachi',
+      'Asia/Kolkata',
+      'Asia/Kathmandu',
+      'Asia/Dhaka',
+      'Asia/Rangoon',
+      'Asia/Bangkok',
+      'Asia/Shanghai',
+      'Asia/Tokyo',
+      'Australia/Sydney',
+      'Pacific/Noumea',
+      'Pacific/Auckland'
+    ];
+  
+    // Add a default empty option
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = '-- Select a timezone --';
+    timezoneSelect.appendChild(defaultOption);
+    
+    // Add all timezones to the dropdown
+    timezones.forEach(tz => {
+      const option = document.createElement('option');
+      option.value = tz;
+      
+      // Format the timezone name for display
+      const displayName = tz.replace('_', ' ').replace(/\//g, ' / ');
+      option.textContent = displayName;
+      
+      timezoneSelect.appendChild(option);
+    });
+  }
+  
+  // Modify your initializeColorPickers function to also call populateTimezoneDropdown
   function initializeColorPickers() {
     const bgColorPicker = document.getElementById('bgColor');
     const textColorPicker = document.getElementById('textColor');
     const colorPreview = document.getElementById('colorPreview');
-
+  
     if (bgColorPicker && textColorPicker && colorPreview) {
       // Update preview when colors change
       bgColorPicker.addEventListener('input', updateColorPreview);
       textColorPicker.addEventListener('input', updateColorPreview);
-
+  
       // Set initial values
       bgColorPicker.value = '#4ba3a9';
       textColorPicker.value = '#ffffff';
       updateColorPreview();
     }
+    
+    // Populate the timezone dropdown
+    populateTimezoneDatalist();
   }
 
   // Update color preview
