@@ -2,15 +2,15 @@ document.addEventListener('DOMContentLoaded', function() {
   // Default time zones in case nothing is stored yet
   const defaultTimeZones = [
     { name: 'Honolulu, HI, United States', timezone: 'Pacific/Honolulu', label: 'HNL', bgColor: '#e6ebd1', textColor: '#333333' },
+    { name: 'Tokyo, Japan', timezone: 'Asia/Tokyo', label: 'TYO', bgColor: '#1c2d4e', textColor: '#ffffff' },
+    { name: 'Auckland, New Zealand', timezone: 'Pacific/Auckland', label: 'AKL', bgColor: '#4ba3a9', textColor: '#ffffff' },
     { name: 'Anchorage, AL, United States', timezone: 'America/Anchorage', label: 'ANC', bgColor: '#c2e5c9', textColor: '#333333' },
     { name: 'Salt Lake City, UT, United States', timezone: 'America/Denver', label: 'SLC', bgColor: '#fcd153', textColor: '#333333' },
     { name: 'Georgetown, Guyana', timezone: 'America/Guyana', label: 'GEO', bgColor: '#f9a357', textColor: '#333333' },
     { name: 'London, United Kingdom', timezone: 'Europe/London', label: 'LON', bgColor: '#9a5a96', textColor: '#ffffff' },
     { name: 'Abu Dhabi, UAE', timezone: 'Asia/Dubai', label: 'AUH', bgColor: '#1c1656', textColor: '#ffffff' },
     { name: 'Kathmandu, Nepal', timezone: 'Asia/Kathmandu', label: 'KTM', bgColor: '#0a0c20', textColor: '#ffffff' },
-    { name: 'Jakarta, Indonesia', timezone: 'Asia/Jakarta', label: 'JKT', bgColor: '#141c37', textColor: '#ffffff' },
-    { name: 'Tokyo, Japan', timezone: 'Asia/Tokyo', label: 'TYO', bgColor: '#1c2d4e', textColor: '#ffffff' },
-    { name: 'Auckland, New Zealand', timezone: 'Pacific/Auckland', label: 'AKL', bgColor: '#4ba3a9', textColor: '#ffffff' }
+    { name: 'Jakarta, Indonesia', timezone: 'Asia/Jakarta', label: 'JKT', bgColor: '#141c37', textColor: '#ffffff' }
   ];
 
   // Initialize storage with default or stored data
@@ -22,18 +22,58 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('saveButton').addEventListener('click', saveNewTimeZone);
   initializeColorPickers();
 
+
+  // Add this function to get the GMT offset in minutes for a timezone
+  function getGMTOffset(timezone) {
+    try {
+      // Create a date object for the current time
+      const now = new Date();
+      
+      // Get the UTC timestamp
+      const utcTimestamp = now.getTime() + now.getTimezoneOffset() * 60000;
+      
+      // Create a date string with the timezone
+      const dateString = new Date(utcTimestamp).toLocaleString("en-US", {
+        timeZone: timezone
+      });
+      
+      // Create a new date object from this string
+      const localDate = new Date(dateString);
+      
+      // Calculate the offset in minutes
+      const offset = (localDate.getTime() - utcTimestamp) / 60000;
+      
+      return offset;
+    } catch (error) {
+      console.error(`Error calculating offset for ${timezone}:`, error);
+      return 0; // Return 0 as default offset if there's an error
+    }
+  }
+  
+  // Add this function to sort timezones by GMT offset
+  function sortTimeZonesByOffset(timeZones) {
+    return timeZones.sort((a, b) => {
+      const offsetA = getGMTOffset(a.timezone);
+      const offsetB = getGMTOffset(b.timezone);
+      return offsetA - offsetB;
+    });
+  }
+
   // Initialize time zones from storage or defaults, then load options
   function initializeTimeZones() {
     // Check if Chrome storage API is available
     if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
       // Use Chrome storage
       chrome.storage.sync.get({ timeZones: defaultTimeZones }, function(data) {
-        loadOptions(data.timeZones);
+        // Sort the time zones before loading
+        const sortedTimeZones = sortTimeZonesByOffset(data.timeZones);
+        loadOptions(sortedTimeZones);
       });
     } else {
-      // Fall back to default time zones
+      // Fall back to default time zones, but sort them first
       console.log('Chrome storage API not available. Using default time zones.');
-      loadOptions(defaultTimeZones);
+      const sortedDefaultTimeZones = sortTimeZonesByOffset(defaultTimeZones);
+      loadOptions(sortedDefaultTimeZones);
     }
   }
 
@@ -261,20 +301,24 @@ document.addEventListener('DOMContentLoaded', function() {
     saveTimeZones(timeZones);
   }
 
-  // Save time zones to storage
-  function saveTimeZones(timeZones) {
-    // Check if Chrome storage API is available
-    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
-      // Use Chrome storage
-      chrome.storage.sync.set({ timeZones: timeZones }, function() {
-        // Reload options
-        loadOptions(timeZones);
-      });
-    } else {
-      // Store in window variable as fallback
-      console.log('Chrome storage API not available. Storing in memory only.');
-      window.currentTimeZones = timeZones;
-      loadOptions(timeZones);
-    }
-  }
+    //saveTimeZones function to include sorting
+    function saveTimeZones(timeZones) {
+        // Sort the time zones by GMT offset
+        const sortedTimeZones = sortTimeZonesByOffset(timeZones);
+        
+        // Check if Chrome storage API is available
+        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+          // Use Chrome storage
+          chrome.storage.sync.set({ timeZones: sortedTimeZones }, function() {
+            // Reload options
+            loadOptions(sortedTimeZones);
+          });
+        } else {
+          // Store in window variable as fallback
+          console.log('Chrome storage API not available. Storing in memory only.');
+          window.currentTimeZones = sortedTimeZones;
+          loadOptions(sortedTimeZones);
+        }
+      }
+    
 });
