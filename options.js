@@ -211,20 +211,19 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Edit time zone
-  // Known issue: edit is duplicating the time zone entry
   function editTimeZone(index) {
     const timeZones = window.currentTimeZones || [];
     const zone = timeZones[index];
-
+  
     if (!zone) {
       alert('Time zone not found');
       return;
     }
-
+  
     // Show form with current values
     document.getElementById('addForm').style.display = 'block';
     document.getElementById('addButton').style.display = 'none';
-
+  
     document.getElementById('name').value = zone.name;
     document.getElementById('timezone').value = zone.timezone;
     document.getElementById('label').value = zone.label;
@@ -233,22 +232,23 @@ document.addEventListener('DOMContentLoaded', function() {
     const saveButton = document.getElementById('saveButton');
     saveButton.textContent = 'Update';
 
-    // Store original save function
-    const originalSaveFunction = saveButton.onclick;
-
-    // Set new function
-    saveButton.onclick = function() {
+    // Remove save event from button
+    saveButton.removeEventListener('click', saveNewTimeZone);
+  
+    // Create a completely new handler for the update
+    saveButton.addEventListener('click', function() {
+      console.log("C");
       const name = document.getElementById('name').value;
       const timezone = document.getElementById('timezone').value;
       const label = document.getElementById('label').value;
       const bgColor = zone.bgColor;
       const textColor = zone.textColor;
-
+  
       if (!name || !timezone || !label) {
         alert('Please fill in all fields');
         return;
       }
-
+  
       // Update time zone
       timeZones[index] = {
         name: name,
@@ -257,17 +257,20 @@ document.addEventListener('DOMContentLoaded', function() {
         bgColor: bgColor,
         textColor: textColor
       };
-
+  
       // Save to storage
       saveTimeZones(timeZones);
-
+  
       // Hide form
       hideAddForm();
-
-      // Restore original save function
+  
+      // Reset the button for future use
       saveButton.textContent = 'Save';
-      saveButton.onclick = originalSaveFunction;
-    };
+      
+      // IMPORTANT: Replace the handler with the original saveNewTimeZone function
+      saveButton.addEventListener('click', saveNewTimeZone);
+    });
+
   }
 
   // Delete time zone
