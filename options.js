@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('addButton').addEventListener('click', showAddForm);
   document.getElementById('cancelButton').addEventListener('click', hideAddForm);
   document.getElementById('saveButton').addEventListener('click', saveNewTimeZone);
-  initializeColorPickers();
+  populateTimezoneDatalist();
 
 
   // Get the GMT offset in minutes for a timezone
@@ -159,40 +159,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  function initializeColorPickers() {
-    const bgColorPicker = document.getElementById('bgColor');
-    const textColorPicker = document.getElementById('textColor');
-    const colorPreview = document.getElementById('colorPreview');
-  
-    if (bgColorPicker && textColorPicker && colorPreview) {
-      // Update preview when colors change
-      bgColorPicker.addEventListener('input', updateColorPreview);
-      textColorPicker.addEventListener('input', updateColorPreview);
-  
-      // Set initial values
-      bgColorPicker.value = '#4ba3a9';
-      textColorPicker.value = '#ffffff';
-      updateColorPreview();
-    }
-    
-    // Populate the timezone datalist
-    populateTimezoneDatalist();
-  }
-
-  // Update color preview
-  function updateColorPreview() {
-    const bgColor = document.getElementById('bgColor').value;
-    const textColor = document.getElementById('textColor').value;
-    const colorPreview = document.getElementById('colorPreview');
-    const labelInput = document.getElementById('label');
-
-    if (colorPreview && labelInput) {
-      colorPreview.style.backgroundColor = bgColor;
-      colorPreview.style.color = textColor;
-      colorPreview.textContent = labelInput.value || 'ABC';
-    }
-  }
-
   // Show add form
   function showAddForm() {
     document.getElementById('addForm').style.display = 'block';
@@ -202,9 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('name').value = '';
     document.getElementById('timezone').value = '';
     document.getElementById('label').value = '';
-    document.getElementById('bgColor').value = '#4ba3a9';
-    document.getElementById('textColor').value = '#ffffff';
-    updateColorPreview();
   }
 
   // Hide add form
@@ -218,8 +181,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const name = document.getElementById('name').value;
     const timezone = document.getElementById('timezone').value;
     const label = document.getElementById('label').value;
-    const bgColor = document.getElementById('bgColor').value;
-    const textColor = document.getElementById('textColor').value;
+    
+    // Use 'auto' as bgColor 
+    const bgColor = 'auto';
+    const textColor = 'auto';
 
     if (!name || !timezone || !label) {
       alert('Please fill in all fields');
@@ -246,6 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Edit time zone
+  // Known issue: edit is duplicating the time zone entry
   function editTimeZone(index) {
     const timeZones = window.currentTimeZones || [];
     const zone = timeZones[index];
@@ -262,10 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('name').value = zone.name;
     document.getElementById('timezone').value = zone.timezone;
     document.getElementById('label').value = zone.label;
-    document.getElementById('bgColor').value = zone.bgColor;
-    document.getElementById('textColor').value = zone.textColor;
-    updateColorPreview();
-
+    
     // Change save button to update this time zone
     const saveButton = document.getElementById('saveButton');
     saveButton.textContent = 'Update';
@@ -278,8 +241,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const name = document.getElementById('name').value;
       const timezone = document.getElementById('timezone').value;
       const label = document.getElementById('label').value;
-      const bgColor = document.getElementById('bgColor').value;
-      const textColor = document.getElementById('textColor').value;
+      const bgColor = zone.bgColor;
+      const textColor = zone.textColor;
 
       if (!name || !timezone || !label) {
         alert('Please fill in all fields');

@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Default time zones in case nothing is stored yet
   const defaultTimeZones = [
-    //{ name: 'Paulinia, Brazil', timezone: 'America/Sao_Paulo', label: 'PLN', bgColor: '#4ba3a9', textColor: '#ffffff' }
+    { name: 'Paulinia, Brazil', timezone: 'America/Sao_Paulo', label: 'PLN', bgColor: 'auto', textColor: '#ffffff' }
   ];
   
   // Load time zones
@@ -23,6 +23,64 @@ document.addEventListener('DOMContentLoaded', function() {
       console.log('Chrome storage API not available. Using default time zones.');
       updateTimezoneDisplay(defaultTimeZones);
     }
+  }
+
+  // Function to generate a color based on the hour (0-23)
+  function getColorForHour(hour) {
+    // Early morning (midnight to 6am): dark blue to purple
+    if (hour >= 0 && hour < 6) {
+      const ratio = hour / 6;
+      return interpolateColor('#1a237e', '#4a148c', ratio);
+    }
+    // Morning (6am to 12pm): purple to teal
+    else if (hour >= 6 && hour < 12) {
+      const ratio = (hour - 6) / 6;
+      return interpolateColor('#4a148c', '#00796b', ratio);
+    }
+    // Afternoon (12pm to 6pm): teal to orange
+    else if (hour >= 12 && hour < 18) {
+      const ratio = (hour - 12) / 6;
+      return interpolateColor('#00796b', '#e65100', ratio);
+    }
+    // Evening (6pm to midnight): orange to dark blue
+    else {
+      const ratio = (hour - 18) / 6;
+      return interpolateColor('#e65100', '#1a237e', ratio);
+    }
+  }
+
+  // Helper function to interpolate between two colors
+  function interpolateColor(color1, color2, ratio) {
+    // Convert hex to RGB
+    const r1 = parseInt(color1.substring(1, 3), 16);
+    const g1 = parseInt(color1.substring(3, 5), 16);
+    const b1 = parseInt(color1.substring(5, 7), 16);
+    
+    const r2 = parseInt(color2.substring(1, 3), 16);
+    const g2 = parseInt(color2.substring(3, 5), 16);
+    const b2 = parseInt(color2.substring(5, 7), 16);
+    
+    // Interpolate
+    const r = Math.round(r1 + (r2 - r1) * ratio);
+    const g = Math.round(g1 + (g2 - g1) * ratio);
+    const b = Math.round(b1 + (b2 - b1) * ratio);
+    
+    // Convert back to hex
+    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+  }
+
+  // Function to generate a contrasting text color (black or white) based on background color
+  function getContrastColor(hexColor) {
+    // Convert hex to RGB
+    const r = parseInt(hexColor.substring(1, 3), 16);
+    const g = parseInt(hexColor.substring(3, 5), 16);
+    const b = parseInt(hexColor.substring(5, 7), 16);
+    
+    // Calculate luminance - human eye favors green color
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+    
+    // Return black for bright colors and white for dark colors
+    return luminance > 0.5 ? '#000000' : '#ffffff';
   }
   
   // Function to update the display with the given time zones
@@ -69,9 +127,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Create time zone element
       const zoneElement = document.createElement('div');
       zoneElement.className = 'timezone';
-      zoneElement.style.backgroundColor = zone.bgColor;
-      zoneElement.style.color = zone.textColor;
-      
+
       // Get current time in this zone
       const now = new Date();
       const timeOptions = { 
@@ -80,19 +136,32 @@ document.addEventListener('DOMContentLoaded', function() {
         minute: '2-digit',
         hour12: false // Use 24-hour format
       };
-      
+
+      const timeString = now.toLocaleTimeString('en-US', timeOptions);
+
+      // Format time to match the design (hour on top line, minute on bottom)
+      const [hours, minutes] = timeString.split(':');
+
+      // Get color based on current hour in this timezone if no color is specified
+      let bgColor = zone.bgColor;
+      let textColor = zone.textColor;
+
+      if (!bgColor || bgColor === 'auto') {
+        bgColor = getColorForHour(parseInt(hours));
+        textColor = getContrastColor(bgColor);
+      }
+
+      zoneElement.style.backgroundColor = bgColor;
+      zoneElement.style.color = textColor; // zone.textColor
+
       const dateOptions = {
         timeZone: zone.timezone,
         weekday: 'short',
         day: 'numeric'
       };
       
-      const timeString = now.toLocaleTimeString('en-US', timeOptions);
       const dateString = now.toLocaleDateString('en-US', dateOptions);
-      
-      // Format time to match the design (hour on top line, minute on bottom)
-      const [hours, minutes] = timeString.split(':');
-      
+           
       // Get day indicator (1st, 2nd, etc.)
       const day = new Date(now.toLocaleDateString('en-US', {
         timeZone: zone.timezone,
