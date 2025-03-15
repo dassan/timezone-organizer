@@ -1,17 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Default time zones in case nothing is stored yet
-  const defaultTimeZones = [
-    { name: 'Honolulu, HI, United States', timezone: 'Pacific/Honolulu', label: 'HNL', bgColor: '#e6ebd1', textColor: '#333333' },
-    { name: 'Tokyo, Japan', timezone: 'Asia/Tokyo', label: 'TYO', bgColor: '#1c2d4e', textColor: '#ffffff' },
-    { name: 'Auckland, New Zealand', timezone: 'Pacific/Auckland', label: 'AKL', bgColor: '#4ba3a9', textColor: '#ffffff' },
-    { name: 'Anchorage, AL, United States', timezone: 'America/Anchorage', label: 'ANC', bgColor: '#c2e5c9', textColor: '#333333' },
-    { name: 'Salt Lake City, UT, United States', timezone: 'America/Denver', label: 'SLC', bgColor: '#fcd153', textColor: '#333333' },
-    { name: 'Georgetown, Guyana', timezone: 'America/Guyana', label: 'GEO', bgColor: '#f9a357', textColor: '#333333' },
-    { name: 'London, United Kingdom', timezone: 'Europe/London', label: 'LON', bgColor: '#9a5a96', textColor: '#ffffff' },
-    { name: 'Abu Dhabi, UAE', timezone: 'Asia/Dubai', label: 'AUH', bgColor: '#1c1656', textColor: '#ffffff' },
-    { name: 'Kathmandu, Nepal', timezone: 'Asia/Kathmandu', label: 'KTM', bgColor: '#0a0c20', textColor: '#ffffff' },
-    { name: 'Jakarta, Indonesia', timezone: 'Asia/Jakarta', label: 'JKT', bgColor: '#141c37', textColor: '#ffffff' }
-  ];
+  const defaultTimeZones = [];
 
   // Initialize storage with default or stored data
   initializeTimeZones();
@@ -86,6 +75,19 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     container.innerHTML = ''; // Clear existing content
+
+    // Check if timeZones array is empty
+    if (timeZones.length === 0) {
+        // Create empty state message
+        const emptyStateDiv = document.createElement('div');
+        emptyStateDiv.className = 'empty-timezone-message';
+        
+        emptyStateDiv.innerHTML = `
+            <p><i>Empty list.</i></p>
+        `;
+
+        container.appendChild(emptyStateDiv);
+    }
 
     timeZones.forEach((zone, index) => {
       const zoneElement = document.createElement('div');

@@ -1,16 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Default time zones in case nothing is stored yet
   const defaultTimeZones = [
-    { name: 'Honolulu, HI, United States', timezone: 'Pacific/Honolulu', label: 'HNL', bgColor: '#e6ebd1', textColor: '#333333' },
-    { name: 'Anchorage, AL, United States', timezone: 'America/Anchorage', label: 'ANC', bgColor: '#c2e5c9', textColor: '#333333' },
-    { name: 'Salt Lake City, UT, United States', timezone: 'America/Denver', label: 'SLC', bgColor: '#fcd153', textColor: '#333333' },
-    { name: 'Georgetown, Guyana', timezone: 'America/Guyana', label: 'GEO', bgColor: '#f9a357', textColor: '#333333' },
-    { name: 'London, United Kingdom', timezone: 'Europe/London', label: 'LON', bgColor: '#9a5a96', textColor: '#ffffff' },
-    { name: 'Abu Dhabi, UAE', timezone: 'Asia/Dubai', label: 'AUH', bgColor: '#1c1656', textColor: '#ffffff' },
-    { name: 'Kathmandu, Nepal', timezone: 'Asia/Kathmandu', label: 'KTM', bgColor: '#0a0c20', textColor: '#ffffff' },
-    { name: 'Jakarta, Indonesia', timezone: 'Asia/Jakarta', label: 'JKT', bgColor: '#141c37', textColor: '#ffffff' },
-    { name: 'Tokyo, Japan', timezone: 'Asia/Tokyo', label: 'TYO', bgColor: '#1c2d4e', textColor: '#ffffff' },
-    { name: 'Auckland, New Zealand', timezone: 'Pacific/Auckland', label: 'AKL', bgColor: '#4ba3a9', textColor: '#ffffff' }
+    //{ name: 'Paulinia, Brazil', timezone: 'America/Sao_Paulo', label: 'PLN', bgColor: '#4ba3a9', textColor: '#ffffff' }
   ];
   
   // Load time zones
@@ -43,6 +34,36 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     container.innerHTML = ''; // Clear existing content
+
+    // Check if timeZones array is empty
+    if (timeZones.length === 0) {
+      // Create empty state message
+      const emptyStateDiv = document.createElement('div');
+      emptyStateDiv.className = 'empty-timezone-message';
+      
+      emptyStateDiv.innerHTML = `
+        <h2>Welcome to Your Time Zone Dashboard!</h2>
+        <p>Thank you for downloading this extension. We're excited to help you keep track of time across the globe.</p>
+        <p>To get started, click the settings button <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg> in the bottom right corner to add your first time zone.</p>
+        <div class="welcome-benefits">
+          <div class="benefit-item">
+            <div class="benefit-icon">🌎</div>
+            <div class="benefit-text">Track time across multiple locations</div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">🎨</div>
+            <div class="benefit-text">Customize colors for each time zone</div>
+          </div>
+          <div class="benefit-item">
+            <div class="benefit-icon">⚡</div>
+            <div class="benefit-text">See updates in real-time</div>
+          </div>
+        </div>
+      `;
+
+      container.appendChild(emptyStateDiv);
+      return;
+    }
     
     timeZones.forEach(zone => {
       // Create time zone element
