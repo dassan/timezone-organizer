@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900">
+  <!-- Background -->
+  <rect width="1600" height="900" fill="#f0f0f0"/>
+  
+  <!-- Hour bars -->
+  <!-- Midnight to 1am - darkest blue -->
+  <rect x="0" y="0" width="66.67" height="900" fill="#0a1029"/>
+  <!-- 1am to 2am -->
+  <rect x="66.67" y="0" width="66.67" height="900" fill="#0d1433"/>
+  <!-- 2am to 3am -->
+  <rect x="133.34" y="0" width="66.67" height="900" fill="#10183d"/>
+  <!-- 3am to 4am -->
+  <rect x="200.01" y="0" width="66.67" height="900" fill="#131c47"/>
+  <!-- 4am to 5am - dawn begins -->
+  <rect x="266.68" y="0" width="66.67" height="900" fill="#1e2756"/>
+  <!-- 5am to 6am - early dawn -->
+  <rect x="333.35" y="0" width="66.67" height="900" fill="#2d3466"/>
+  <!-- 6am to 7am - sunrise -->
+  <rect x="400.02" y="0" width="66.67" height="900" fill="#4a5090"/>
+  <!-- 7am to 8am - early morning -->
+  <rect x="466.69" y="0" width="66.67" height="900" fill="#6a7cb9"/>
+  <!-- 8am to 9am -->
+  <rect x="533.36" y="0" width="66.67" height="900" fill="#8aa8d4"/>
+  <!-- 9am to 10am -->
+  <rect x="600.03" y="0" width="66.67" height="900" fill="#abd2e6"/>
+  <!-- 10am to 11am - transitioning to yellow -->
+  <rect x="666.7" y="0" width="66.67" height="900" fill="#d9e9aa"/>
+  <!-- 11am to 12pm - approaching yellow -->
+  <rect x="733.37" y="0" width="66.67" height="900" fill="#eef280"/>
+  <!-- 12pm to 1pm - brightest yellow -->
+  <rect x="800.04" y="0" width="66.67" height="900" fill="#fff44f"/>
+  <!-- 1pm to 2pm - bright yellow -->
+  <rect x="866.71" y="0" width="66.67" height="900" fill="#ffee33"/>
+  <!-- 2pm to 3pm - starting to transition to orange -->
+  <rect x="933.38" y="0" width="66.67" height="900" fill="#ffd700"/>
+  <!-- 3pm to 4pm - golden hour -->
+  <rect x="1000.05" y="0" width="66.67" height="900" fill="#ffa500"/>
+  <!-- 4pm to 5pm - deeper orange -->
+  <rect x="1066.72" y="0" width="66.67" height="900" fill="#ff8c00"/>
+  <!-- 5pm to 6pm - sunset orange -->
+  <rect x="1133.39" y="0" width="66.67" height="900" fill="#ff4500"/>
+  <!-- 6pm to 7pm - sunset -->
+  <rect x="1200.06" y="0" width="66.67" height="900" fill="#6a7cb9"/>
+  <!-- 7pm to 8pm - dusk -->
+  <rect x="1266.73" y="0" width="66.67" height="900" fill="#4a5090"/>
+  <!-- 8pm to 9pm - evening -->
+  <rect x="1333.4" y="0" width="66.67" height="900" fill="#2d3466"/>
+  <!-- 9pm to 10pm -->
+  <rect x="1400.07" y="0" width="66.67" height="900" fill="#1e2756"/>
+  <!-- 10pm to 11pm -->
+  <rect x="1466.74" y="0" width="66.67" height="900" fill="#10183d"/>
+  <!-- 11pm to 12am -->
+  <rect x="1533.41" y="0" width="66.67" height="900" fill="#0a1029"/>
+  
+  <!-- Hour labels -->
+  <text x="33.33" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">00</text>
+  <text x="100" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">01</text>
+  <text x="166.67" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">02</text>
+  <text x="233.34" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">03</text>
+  <text x="300.01" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">04</text>
+  <text x="366.68" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">05</text>
+  <text x="433.35" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">06</text>
+  <text x="500.02" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">07</text>
+  <text x="566.69" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">08</text>
+  <text x="633.36" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">09</text>
+  <text x="700.03" y="875" font-family="Arial" font-size="14" fill="black" text-anchor="middle">10</text>
+  <text x="766.7" y="875" font-family="Arial" font-size="14" fill="black" text-anchor="middle">11</text>
+  <text x="833.37" y="875" font-family="Arial" font-size="14" fill="black" text-anchor="middle">12</text>
+  <text x="900.04" y="875" font-family="Arial" font-size="14" fill="black" text-anchor="middle">13</text>
+  <text x="966.71" y="875" font-family="Arial" font-size="14" fill="black" text-anchor="middle">14</text>
+  <text x="1033.38" y="875" font-family="Arial" font-size="14" fill="black" text-anchor="middle">15</text>
+  <text x="1100.05" y="875" font-family="Arial" font-size="14" fill="black" text-anchor="middle">16</text>
+  <text x="1166.72" y="875" font-family="Arial" font-size="14" fill="black" text-anchor="middle">17</text>
+  <text x="1233.39" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">18</text>
+  <text x="1300.06" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">19</text>
+  <text x="1366.73" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">20</text>
+  <text x="1433.4" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">21</text>
+  <text x="1500.07" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">22</text>
+  <text x="1566.74" y="875" font-family="Arial" font-size="14" fill="white" text-anchor="middle">23</text>
+  
+  <!-- Title -->
+  <text x="800" y="50" font-family="Arial" font-size="24" font-weight="bold" fill="black" text-anchor="middle">24 Hours of the Day Color Visualization</text>
+</svg>
