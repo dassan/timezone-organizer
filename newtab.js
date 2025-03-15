@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Default time zones in case nothing is stored yet
-  const defaultTimeZones = [
-    { name: 'Paulinia, Brazil', timezone: 'America/Sao_Paulo', label: 'PLN', bgColor: 'auto', textColor: '#ffffff' }
-  ];
+  const defaultTimeZones = [];
   
   // Load time zones
   loadTimeZones();
@@ -27,46 +25,34 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Function to generate a color based on the hour (0-23)
   function getColorForHour(hour) {
-    // Early morning (midnight to 6am): dark blue to purple
-    if (hour >= 0 && hour < 6) {
-      const ratio = hour / 6;
-      return interpolateColor('#1a237e', '#4a148c', ratio);
-    }
-    // Morning (6am to 12pm): purple to teal
-    else if (hour >= 6 && hour < 12) {
-      const ratio = (hour - 6) / 6;
-      return interpolateColor('#4a148c', '#00796b', ratio);
-    }
-    // Afternoon (12pm to 6pm): teal to orange
-    else if (hour >= 12 && hour < 18) {
-      const ratio = (hour - 12) / 6;
-      return interpolateColor('#00796b', '#e65100', ratio);
-    }
-    // Evening (6pm to midnight): orange to dark blue
-    else {
-      const ratio = (hour - 18) / 6;
-      return interpolateColor('#e65100', '#1a237e', ratio);
-    }
-  }
+    const hourColors = {
+      0: '#0a1029',
+      1: '#0d1433',
+      2: '#10183d',
+      3: '#131c47',
+      4: '#1e2756',
+      5: '#2d3466',
+      6: '#4a5090',
+      7: '#6a7cb9',
+      8: '#8aa8d4',
+      9: '#abd2e6',
+      10: '#d9e9aa',
+      11: '#eef280',
+      12: '#fff44f',
+      13: '#ffee33',
+      14: '#ffd700',
+      15: '#ffa500',
+      16: '#ff8c00',
+      17: '#ff4500',
+      18: '#6a7cb9',
+      19: '#4a5090',
+      20: '#2d3466',
+      21: '#1e2756',
+      22: '#10183d',
+      23: '#0a1029',
+    };
 
-  // Helper function to interpolate between two colors
-  function interpolateColor(color1, color2, ratio) {
-    // Convert hex to RGB
-    const r1 = parseInt(color1.substring(1, 3), 16);
-    const g1 = parseInt(color1.substring(3, 5), 16);
-    const b1 = parseInt(color1.substring(5, 7), 16);
-    
-    const r2 = parseInt(color2.substring(1, 3), 16);
-    const g2 = parseInt(color2.substring(3, 5), 16);
-    const b2 = parseInt(color2.substring(5, 7), 16);
-    
-    // Interpolate
-    const r = Math.round(r1 + (r2 - r1) * ratio);
-    const g = Math.round(g1 + (g2 - g1) * ratio);
-    const b = Math.round(b1 + (b2 - b1) * ratio);
-    
-    // Convert back to hex
-    return `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
+    return hourColors[hour] || '#000000'; // Fallback to black if hour not found
   }
 
   // Function to generate a contrasting text color (black or white) based on background color
