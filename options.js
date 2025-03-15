@@ -23,7 +23,7 @@ document.addEventListener('DOMContentLoaded', function() {
   initializeColorPickers();
 
 
-  // Add this function to get the GMT offset in minutes for a timezone
+  // Get the GMT offset in minutes for a timezone
   function getGMTOffset(timezone) {
     try {
       // Create a date object for the current time
@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  // Add this function to sort timezones by GMT offset
+  // Sort timezones by GMT offset
   function sortTimeZonesByOffset(timeZones) {
     return timeZones.sort((a, b) => {
       const offsetA = getGMTOffset(a.timezone);
@@ -140,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.currentTimeZones = timeZones;
   }
 
-  // Alternative implementation using datalist for searchable dropdown
+  // Using datalist for searchable dropdown
   function populateTimezoneDatalist() {
     const timezoneInput = document.getElementById('timezone');
     const timezoneDatalist = document.getElementById('timezoneList');
@@ -189,66 +189,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  // Populate the timezone dropdown
-  function populateTimezoneDropdown() {
-    const timezoneSelect = document.getElementById('timezone');
-    if (!timezoneSelect) return;
-    
-    // Clear existing options
-    timezoneSelect.innerHTML = '';
-    
-    // List of all IANA timezones (this is a simplified list, you might want to use a more complete one)
-    const timezones = [
-      'Pacific/Midway',
-      'Pacific/Honolulu',
-      'America/Anchorage',
-      'America/Los_Angeles',
-      'America/Denver',
-      'America/Chicago',
-      'America/New_York',
-      'America/Caracas',
-      'America/Santiago',
-      'America/Sao_Paulo',
-      'Atlantic/Azores',
-      'Europe/London',
-      'Europe/Paris',
-      'Europe/Moscow',
-      'Asia/Tehran',
-      'Asia/Dubai',
-      'Asia/Kabul',
-      'Asia/Karachi',
-      'Asia/Kolkata',
-      'Asia/Kathmandu',
-      'Asia/Dhaka',
-      'Asia/Rangoon',
-      'Asia/Bangkok',
-      'Asia/Shanghai',
-      'Asia/Tokyo',
-      'Australia/Sydney',
-      'Pacific/Noumea',
-      'Pacific/Auckland'
-    ];
-  
-    // Add a default empty option
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.textContent = '-- Select a timezone --';
-    timezoneSelect.appendChild(defaultOption);
-    
-    // Add all timezones to the dropdown
-    timezones.forEach(tz => {
-      const option = document.createElement('option');
-      option.value = tz;
-      
-      // Format the timezone name for display
-      const displayName = tz.replace('_', ' ').replace(/\//g, ' / ');
-      option.textContent = displayName;
-      
-      timezoneSelect.appendChild(option);
-    });
-  }
-  
-  // Modify your initializeColorPickers function to also call populateTimezoneDropdown
   function initializeColorPickers() {
     const bgColorPicker = document.getElementById('bgColor');
     const textColorPicker = document.getElementById('textColor');
@@ -265,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
       updateColorPreview();
     }
     
-    // Populate the timezone dropdown
+    // Populate the timezone datalist
     populateTimezoneDatalist();
   }
 
@@ -412,24 +352,24 @@ document.addEventListener('DOMContentLoaded', function() {
     saveTimeZones(timeZones);
   }
 
-    //saveTimeZones function to include sorting
-    function saveTimeZones(timeZones) {
-        // Sort the time zones by GMT offset
-        const sortedTimeZones = sortTimeZonesByOffset(timeZones);
-        
-        // Check if Chrome storage API is available
-        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
-          // Use Chrome storage
-          chrome.storage.sync.set({ timeZones: sortedTimeZones }, function() {
+  //saveTimeZones function to include sorting
+  function saveTimeZones(timeZones) {
+    // Sort the time zones by GMT offset
+    const sortedTimeZones = sortTimeZonesByOffset(timeZones);
+
+    // Check if Chrome storage API is available
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+        // Use Chrome storage
+        chrome.storage.sync.set({ timeZones: sortedTimeZones }, function() {
             // Reload options
             loadOptions(sortedTimeZones);
-          });
-        } else {
-          // Store in window variable as fallback
-          console.log('Chrome storage API not available. Storing in memory only.');
-          window.currentTimeZones = sortedTimeZones;
-          loadOptions(sortedTimeZones);
-        }
-      }
+        });
+    } else {
+        // Store in window variable as fallback
+        console.log('Chrome storage API not available. Storing in memory only.');
+        window.currentTimeZones = sortedTimeZones;
+        loadOptions(sortedTimeZones);
+    }
+  }
     
 });
