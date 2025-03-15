@@ -149,39 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Clear existing options
     timezoneDatalist.innerHTML = '';
     
-    // List of all IANA timezones (this is a simplified list, you might want to use a more complete one)
-    const timezones = [
-      'Pacific/Midway',
-      'Pacific/Honolulu',
-      'America/Anchorage',
-      'America/Los_Angeles',
-      'America/Denver',
-      'America/Chicago',
-      'America/New_York',
-      'America/Caracas',
-      'America/Santiago',
-      'America/Sao_Paulo',
-      'Atlantic/Azores',
-      'Europe/London',
-      'Europe/Paris',
-      'Europe/Moscow',
-      'Asia/Tehran',
-      'Asia/Dubai',
-      'Asia/Kabul',
-      'Asia/Karachi',
-      'Asia/Kolkata',
-      'Asia/Kathmandu',
-      'Asia/Dhaka',
-      'Asia/Rangoon',
-      'Asia/Bangkok',
-      'Asia/Shanghai',
-      'Asia/Tokyo',
-      'Australia/Sydney',
-      'Pacific/Noumea',
-      'Pacific/Auckland'
-    ];
-    
-    // Add all timezones to the datalist
+    // Add all timezones to the datalist (imported from timezones.js file)
     timezones.forEach(tz => {
       const option = document.createElement('option');
       option.value = tz;
