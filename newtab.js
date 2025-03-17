@@ -26,30 +26,30 @@ document.addEventListener('DOMContentLoaded', function() {
   // Function to generate a color based on the hour (0-23)
   function getColorForHour(hour) {
     const hourColors = {
-      0: '#0a1029',
-      1: '#0d1433',
-      2: '#10183d',
-      3: '#131c47',
-      4: '#1e2756',
-      5: '#2d3466',
-      6: '#4a5090',
-      7: '#6a7cb9',
-      8: '#8aa8d4',
-      9: '#abd2e6',
-      10: '#d9e9aa',
-      11: '#eef280',
-      12: '#fff44f',
-      13: '#ffee33',
-      14: '#ffd700',
-      15: '#ffa500',
-      16: '#ff8c00',
-      17: '#ff4500',
-      18: '#6a7cb9',
-      19: '#4a5090',
-      20: '#2d3466',
-      21: '#1e2756',
-      22: '#10183d',
-      23: '#0a1029',
+      0: '#353b4f',
+      1: '#3d4259',
+      2: '#464b64',
+      3: '#4e546e',
+      4: '#5d6483',
+      5: '#7a80a0',
+      6: '#9ba3c2',
+      7: '#b6c0da',
+      8: '#c5d3e5',
+      9: '#d6e5ec',
+      10: '#e4ecd9',
+      11: '#eeecc0',
+      12: '#f5f0c6',
+      13: '#f7edd0',
+      14: '#f9e0c0',
+      15: '#f9d0b3',
+      16: '#f0c4b1',
+      17: '#e8b8ae',
+      18: '#b6c0da',
+      19: '#9ba3c2',
+      20: '#7a80a0',
+      21: '#5d6483',
+      22: '#464b64',
+      23: '#353b4f'
     };
 
     return hourColors[hour] || '#000000'; // Fallback to black if hour not found
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
     
     // Return black for bright colors and white for dark colors
-    return luminance > 0.5 ? '#000000' : '#ffffff';
+    return luminance > 0.5 ? '#2A2D3A' : '#D8D8D8';
   }
   
   // Function to update the display with the given time zones
