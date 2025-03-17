@@ -129,13 +129,8 @@ document.addEventListener('DOMContentLoaded', function() {
       const [hours, minutes] = timeString.split(':');
 
       // Get color based on current hour in this timezone if no color is specified
-      let bgColor = zone.bgColor;
-      let textColor = zone.textColor;
-
-      if (!bgColor || bgColor === 'auto') {
-        bgColor = getColorForHour(parseInt(hours));
-        textColor = getContrastColor(bgColor);
-      }
+      let bgColor = getColorForHour(parseInt(hours));
+      let textColor = getContrastColor(bgColor);
 
       zoneElement.style.backgroundColor = bgColor;
       zoneElement.style.color = textColor; // zone.textColor

@@ -70,6 +70,23 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
 
+  // Function to get a random color from the hour colors palette
+  function getRandomPaletteColor() {
+    // Array of colors from the getColorForHour function
+    const colorPalette = [
+      '#353b4f', '#3d4259', '#464b64', '#4e546e', '#5d6483',
+      '#7a80a0', '#9ba3c2', '#b6c0da', '#c5d3e5', '#d6e5ec',
+      '#e4ecd9', '#eeecc0', '#f5f0c6', '#f7edd0', '#f9e0c0',
+      '#f9d0b3', '#f0c4b1', '#e8b8ae',
+    ];
+    
+    // Get a random index from the array
+    const randomIndex = Math.floor(Math.random() * colorPalette.length);
+    
+    // Return the color at the random index
+    return colorPalette[randomIndex];
+  }
+
   // Load options with the provided time zones
   function loadOptions(timeZones) {
     const container = document.getElementById('timeZonesList');
@@ -187,7 +204,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const label = document.getElementById('label').value;
     
     // Use 'auto' as bgColor 
-    const bgColor = 'auto';
+    const bgColor = getRandomPaletteColor();
     const textColor = 'auto';
 
     if (!name || !timezone || !label) {
