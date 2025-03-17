@@ -70,6 +70,12 @@ body {
     line-height: 1;
   }
   
+  .timezone-time-period {
+    font-size: 25px;
+    font-weight: bold;
+    line-height: 1;
+  }
+
   .day-indicator {
     font-size: 14px;
     padding: 5px 0;

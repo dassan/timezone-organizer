@@ -1,6 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Default time zones in case nothing is stored yet
-  const defaultTimeZones = [];
+  const defaultTimeZones = [
+    { name: 'Sao Paulo', timezone: 'America/Sao_Paulo', label: 'SPO', bgColor: '#e6ebd1', textColor: '#333333' },
+  ];
   
   // Load time zones
   loadTimeZones();
@@ -79,6 +81,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     container.innerHTML = ''; // Clear existing content
 
+    // Displays AM/PM format - time zone is always stored in 24-hour format,
+    // this is for interface purposes only
+    const hour12 = false;
+
     // Check if timeZones array is empty
     if (timeZones.length === 0) {
       // Create empty state message
@@ -154,14 +160,33 @@ document.addEventListener('DOMContentLoaded', function() {
       const dayIndicator = getDayIndicator(day);
       
       // Group all content in the center
-      zoneElement.innerHTML = `
-        <div class="content-group">
-          <div class="timezone-time">${hours}<br>${minutes}</div>
-          <div class="day-indicator">${dateString.split(',')[0]}. ${dayIndicator}</div>
-          <div class="timezone-name">${zone.name}</div>
-        </div>
-      `;
-      
+      if (hour12) {
+        let hourAMPM = hours;
+        let period = 'AM';
+
+        if (hours > 12) {
+          hourAMPM = hours - 12;
+          period = 'PM';
+        }
+
+        zoneElement.innerHTML = `
+          <div class="content-group">
+            <div class="timezone-time">${String(hourAMPM).padStart(2, '0')}<br>${minutes}</div>
+            <div class="timezone-time-period">${period}</div>
+            <div class="day-indicator">${dateString.split(',')[0]}. ${dayIndicator}</div>
+            <div class="timezone-name">${zone.name}</div>
+          </div>
+        `;
+      } else {
+        zoneElement.innerHTML = `
+          <div class="content-group">
+            <div class="timezone-time">${hours}<br>${minutes}</div>
+            <div class="day-indicator">${dateString.split(',')[0]}. ${dayIndicator}</div>
+            <div class="timezone-name">${zone.name}</div>
+          </div>
+        `;
+      }
+
       container.appendChild(zoneElement);
     });
   }
