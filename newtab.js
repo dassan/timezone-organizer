@@ -3,12 +3,54 @@ document.addEventListener('DOMContentLoaded', function() {
   const defaultTimeZones = [
     { name: 'Sao Paulo', timezone: 'America/Sao_Paulo', label: 'SPO', bgColor: '#e6ebd1', textColor: '#333333' },
   ];
+
+  // Default hour format (24-hour)
+  const defaultHour24 = true;
+  
+  // Global variable to store the hour format
+  let hour12 = false; // This will be set by loadHourFormat()
+  
+  // Load time zones and hour format
+  loadHourFormat();
   
   // Load time zones
   loadTimeZones();
   
   // Add settings toggle button
   addSettingsButton();
+
+  // Function to load hour format from Chrome storage
+  function loadHourFormat() {
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+      chrome.storage.sync.get({ hour24: defaultHour24 }, function(data) {
+        hour12 = !data.hour24; // Convert to hour12 format
+        // If time zones are already loaded, update the display
+        if (window.currentTimeZones) {
+          updateTimezoneDisplay(window.currentTimeZones);
+        }
+      });
+    } else {
+      console.log('Chrome storage API not available. Using default hour format.');
+      hour12 = !defaultHour24;
+    }
+  }
+  
+  // Function to load time zones from Chrome storage
+  function loadTimeZones() {
+    // Check if chrome.storage is available
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+      // Chrome storage API is available, use it
+      chrome.storage.sync.get({ timeZones: defaultTimeZones }, function(data) {
+        window.currentTimeZones = data.timeZones; // Store for potential updates
+        updateTimezoneDisplay(data.timeZones);
+      });
+    } else {
+      // Chrome storage API is not available, use default time zones
+      console.log('Chrome storage API not available. Using default time zones.');
+      window.currentTimeZones = defaultTimeZones;
+      updateTimezoneDisplay(defaultTimeZones);
+    }
+  }
   
   // Function to load time zones from Chrome storage
   function loadTimeZones() {
@@ -80,10 +122,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     container.innerHTML = ''; // Clear existing content
-
-    // Displays AM/PM format - time zone is always stored in 24-hour format,
-    // this is for interface purposes only
-    const hour12 = false;
 
     // Check if timeZones array is empty
     if (timeZones.length === 0) {

@@ -166,12 +166,94 @@
       gap: 10px;
       margin-top: 20px;
     }
+
+    .general-settings {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .setting-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+    }
+
+    .setting-label {
+      font-weight: 500;
+    }
+
+    /* Toggle Switch */
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 50px;
+      height: 24px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+      border-radius: 24px;
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 18px;
+      width: 18px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background-color: #4ba3a9;
+    }
+
+    input:focus + .toggle-slider {
+      box-shadow: 0 0 1px #4ba3a9;
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <div class="container">
     <h1>TimeZone Organizer</h1>
+
+    <div class="general-settings">
+      <h2>General Settings</h2>
+      <div class="setting-item">
+        <div class="setting-label">24-hour format</div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="hour24Toggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+    
+    <div id="timeZonesList">
+      <!-- Time zones will be populated by JavaScript -->
+    </div>
     
     <div id="timeZonesList">
       <!-- Time zones will be populated by JavaScript -->
@@ -201,29 +283,7 @@
         <!-- <input type="text" id="label" placeholder="e.g. NYC" maxlength="3" oninput="updateColorPreview()"> -->
         <input type="text" id="label" placeholder="e.g. NYC" maxlength="3">
       </div>
-      
-      <!--
-      <div class="form-group">
-        <label>Colors:</label>
-        <div class="color-picker-group">
-          <div class="color-picker-container">
-            <label for="bgColor">Background:</label>
-            <input type="color" id="bgColor" value="#4ba3a9">
-          </div>
-          
-          <div class="color-picker-container">
-            <label for="textColor">Text:</label>
-            <input type="color" id="textColor" value="#ffffff">
-          </div>
-        </div>
-        
-        <div class="preview-container">
-          <label>Preview:</label>
-          <div id="colorPreview">ABC</div>
-        </div>
-      </div>
-      -->
-      
+            
       <div class="actions">
         <button id="cancelButton" class="btn btn-secondary">Cancel</button>
         <button id="saveButton" class="btn btn-primary">Save</button>

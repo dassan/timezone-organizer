@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Default time zones in case nothing is stored yet
   const defaultTimeZones = [];
+  // Default hour format (24-hour)
+  const defaultHour24 = true;
 
   // Initialize storage with default or stored data
   initializeTimeZones();
+  initializeHourFormat();
 
   // Initialize UI elements
   document.getElementById('addButton').addEventListener('click', showAddForm);
@@ -13,8 +16,36 @@ document.addEventListener('DOMContentLoaded', function() {
     // Navigate to the new tab page
     window.location.href = 'newtab.html';
   });
+
+  // Add event listener for the hour format toggle
+  document.getElementById('hour24Toggle').addEventListener('change', function() {
+    saveHourFormat(this.checked);
+  });
+  
   populateTimezoneDatalist();
 
+  // Initialize hour format from storage
+  function initializeHourFormat() {
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+      chrome.storage.sync.get({ hour24: defaultHour24 }, function(data) {
+        document.getElementById('hour24Toggle').checked = data.hour24;
+      });
+    } else {
+      console.log('Chrome storage API not available. Using default hour format.');
+      document.getElementById('hour24Toggle').checked = defaultHour24;
+    }
+  }
+
+  // Save hour format to storage
+  function saveHourFormat(hour24) {
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+      chrome.storage.sync.set({ hour24: hour24 }, function() {
+        console.log('Hour format saved: ' + (hour24 ? '24-hour' : '12-hour'));
+      });
+    } else {
+      console.log('Chrome storage API not available. Hour format change not saved.');
+    }
+  }
 
   // Get the GMT offset in minutes for a timezone
   function getGMTOffset(timezone) {
@@ -96,6 +127,10 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     container.innerHTML = ''; // Clear existing content
+
+    const listOfTimezonesTitle = document.createElement('div');
+    listOfTimezonesTitle.innerHTML = `<h2>List of Time Zones</h2>`;
+    container.appendChild(listOfTimezonesTitle);
 
     // Check if timeZones array is empty
     if (timeZones.length === 0) {
