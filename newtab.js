@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
   // Default time zones in case nothing is stored yet
-  const defaultTimeZones = [
-    { name: 'Sao Paulo', timezone: 'America/Sao_Paulo', label: 'SPO', bgColor: '#e6ebd1', textColor: '#333333' },
-  ];
+  const defaultTimeZones = [];
 
   // Default hour format (24-hour)
   const defaultHour24 = true;
