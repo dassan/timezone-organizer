@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Initialize storage with default or stored data
   initializeTimeZones();
   initializeHourFormat();
+  initBuyMeCoffeeLink();
 
   // Initialize UI elements
   document.getElementById('addButton').addEventListener('click', showAddForm);
@@ -28,6 +29,24 @@ document.addEventListener('DOMContentLoaded', function() {
   });
   
   populateTimezoneDatalist();
+
+  // Initialize the Buy Me a Coffee link
+  function initBuyMeCoffeeLink() {
+    const coffeeLink = document.getElementById('buyMeCoffeeLink');
+    if (coffeeLink) {
+      coffeeLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        // Open your Buy Me a Coffee link in a new tab
+        window.open('https://www.paypal.com/donate/?business=68EYDXTTXFA2G&no_recurring=0&item_name=Timezone+Organizer+will+always+be+free%21+Thank+you+for+your+support%21&currency_code=USD', '_blank');
+        
+        // Optional: Hide the message after clicking (user has seen it)
+        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+          chrome.storage.sync.set({ showDonationMessage: false });
+          updateDonationFooter(false);
+        }
+      });
+    }
+  }  
 
   // Initialize hour format from storage
   function initializeHourFormat() {
