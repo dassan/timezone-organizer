@@ -16,6 +16,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Navigate to the new tab page
     window.location.href = 'newtab.html';
   });
+  // Save the donation message setting
+  document.getElementById('showDonationMessage').addEventListener('change', function() {
+    chrome.storage.sync.set({ showDonationMessage: this.checked });
+  });
+
+  // Load the donation message setting
+  chrome.storage.sync.get({ showDonationMessage: true }, function(data) {
+    document.getElementById('showDonationMessage').checked = data.showDonationMessage;
+  });
 
   // Add event listener for the hour format toggle
   document.getElementById('hour24Toggle').addEventListener('change', function() {

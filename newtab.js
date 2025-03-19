@@ -17,6 +17,52 @@ document.addEventListener('DOMContentLoaded', function() {
   // Add settings toggle button
   addSettingsButton();
 
+  // Load donation message setting and initialize coffee link
+  loadDonationMessageSetting();
+  initBuyMeCoffeeLink();
+
+  // Load the donation message visibility setting
+  function loadDonationMessageSetting() {
+    if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+      chrome.storage.sync.get({ showDonationMessage: true }, function(data) {
+        updateDonationFooter(data.showDonationMessage);
+      });
+    } else {
+      console.log('Chrome storage API not available. Not showing donation message.');
+      updateDonationFooter(false);
+    }
+  }
+
+  // Update the donation footer visibility
+  function updateDonationFooter(show) {
+    const footer = document.getElementById('donation-footer');
+    if (footer) {
+      if (show) {
+        footer.classList.remove('hidden');
+      } else {
+        footer.classList.add('hidden');
+      }
+    }
+  }
+
+  // Initialize the Buy Me a Coffee link
+  function initBuyMeCoffeeLink() {
+    const coffeeLink = document.getElementById('buyMeCoffeeLink');
+    if (coffeeLink) {
+      coffeeLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        // Open your Buy Me a Coffee link in a new tab
+        window.open('https://www.buymeacoffee.com/yourname', '_blank');
+        
+        // Optional: Hide the message after clicking (user has seen it)
+        if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+          chrome.storage.sync.set({ showDonationMessage: false });
+          updateDonationFooter(false);
+        }
+      });
+    }
+  }
+
   // Function to load hour format from Chrome storage
   function loadHourFormat() {
     if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
@@ -244,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
     settingsButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>';
     settingsButton.id = 'settingsButton';
     settingsButton.style.position = 'fixed';
-    settingsButton.style.bottom = '20px';
+    settingsButton.style.bottom = '10px';
     settingsButton.style.right = '20px';
     settingsButton.style.background = 'rgba(30, 30, 30, 0.6)';
     settingsButton.style.color = 'white';

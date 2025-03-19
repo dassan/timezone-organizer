@@ -1,175 +1,221 @@
 body {
-    font-family: 'Inter', 'Roboto', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    background-color: #9ba3c2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden; /* Prevent scrolling */
-  }
-  
-  .container {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    height: 100vh; /* Full viewport height */
-    max-width: 100%; /* Allow full width */
-  }
-  
-  h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-    text-align: center;
-    color: #ffffff;
-    display: none; /* Hide the heading to maximize space */
-  }
-  
-  #timezones {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    height: 100%; /* Take full height */
-    overflow-x: auto; /* Allow horizontal scrolling if needed */
-    gap: 0;
-  }
-  
-  .timezone {
-    flex: 1;
-    min-width: 120px;
-    height: 100%; /* Full height */
-    padding: 20px 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center; /* Center all content vertically */
-    text-align: center;
-    transition: transform 0.2s;
-    position: relative;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-  }
-  
-  .timezone:hover {
-    transform: translateY(-2px);
-  }
-  
-  /* Content group that contains all elements centered in the column */
-  .content-group {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 20px; /* Space between elements */
-  }
-  
-  .timezone-time {
-    font-size: 42px;
-    font-weight: bold;
-    line-height: 1;
-  }
-  
-  .timezone-time-period {
-    font-size: 25px;
-    font-weight: bold;
-    line-height: 1;
-  }
-
-  .day-indicator {
-    font-size: 14px;
-    padding: 5px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
-    width: 100%;
-    text-align: center;
-  }
-  
-  .timezone-name {
-    font-weight: bold;
-    font-size: 14px;
-    text-align: center;
-    max-width: 90%;
-  }
-
-  /* Enhanced empty timezone message styling */
-  .empty-timezone-message {
-    text-align: center;
-    padding: 40px 30px;
-    background-color: rgba(245, 245, 255, 0.9); /* Slightly blueish white */
-    border-radius: 12px;
-    margin: 60px auto;
-    max-width: 600px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-    color: #2A2D3A; /* Darker shade from your existing palette */
-  }
-
-  .empty-timezone-message h2 {
-    margin-bottom: 20px;
-    color: #464b64;
-    font-size: 28px;
-  }
-
-  .empty-timezone-message p {
-    line-height: 1.7;
-    margin-bottom: 20px;
-    color: #5d6483;
-    font-size: 16px;
-  }
-
-  .empty-timezone-message svg {
-    vertical-align: middle;
-    margin: 0 3px;
-  }
-
-  .welcome-benefits {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 30px;
-    flex-wrap: wrap;
-  }
-
-  .benefit-item {
-    flex: 1;
-    min-width: 140px;
-    padding: 15px;
-    margin: 10px;
-    border-radius: 8px;
-    transition: transform 0.2s, box-shadow 0.2s;
-    background-color: rgba(230, 235, 245, 0.7); /* Light blue-gray */
-    border: 1px solid rgba(155, 163, 194, 0.3); /* Light version of #9ba3c2 */
-  }
-
-  .benefit-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-  }
-
-  .benefit-icon {
-    background-color: rgba(182, 192, 218, 0.3); /* Light version of #b6c0da */
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 12px;
-    font-size: 28px;
-    margin-bottom: 12px;
+  font-family: 'Inter', 'Roboto', Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  background-color: #9ba3c2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  /* Prevent scrolling */
 }
 
-  .benefit-text {
-    font-size: 14px;
-    color: #464b64;
-  }
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+  /* Full viewport height */
+  max-width: 100%;
+  /* Allow full width */
+}
 
-  /* Color scheme based on the image */
-  .honolulu { background-color: #e6ebd1; color: #333333; }
-  .anchorage { background-color: #c2e5c9; color: #333333; }
-  .salt-lake { background-color: #fcd153; color: #333333; }
-  .georgetown { background-color: #f9a357; color: #333333; }
-  .london { background-color: #9a5a96; color: #ffffff; }
-  .abu-dhabi { background-color: #1c1656; color: #ffffff; }
-  .kathmandu { background-color: #0a0c20; color: #ffffff; }
-  .jakarta { background-color: #141c37; color: #ffffff; }
-  .tokyo { background-color: #1c2d4e; color: #ffffff; }
-  .auckland { background-color: #4ba3a9; color: #ffffff; }
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-align: center;
+  color: #ffffff;
+  display: none;
+  /* Hide the heading to maximize space */
+}
+
+#timezones {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+  /* Take full height */
+  overflow-x: auto;
+  /* Allow horizontal scrolling if needed */
+  gap: 0;
+}
+
+.timezone {
+  flex: 1;
+  min-width: 120px;
+  height: 100%;
+  /* Full height */
+  padding: 20px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* Center all content vertically */
+  text-align: center;
+  transition: transform 0.2s;
+  position: relative;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.timezone:hover {
+  transform: translateY(-2px);
+}
+
+/* Content group that contains all elements centered in the column */
+.content-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  /* Space between elements */
+}
+
+.timezone-time {
+  font-size: 42px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.timezone-time-period {
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.day-indicator {
+  font-size: 14px;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  width: 100%;
+  text-align: center;
+}
+
+.timezone-name {
+  font-weight: bold;
+  font-size: 14px;
+  text-align: center;
+  max-width: 90%;
+}
+
+/* Enhanced empty timezone message styling */
+.empty-timezone-message {
+  text-align: center;
+  padding: 40px 30px;
+  background-color: rgba(245, 245, 255, 0.9);
+  /* Slightly blueish white */
+  border-radius: 12px;
+  margin: 60px auto;
+  max-width: 600px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  color: #2A2D3A;
+  /* Darker shade from your existing palette */
+}
+
+.empty-timezone-message h2 {
+  margin-bottom: 20px;
+  color: #464b64;
+  font-size: 28px;
+}
+
+.empty-timezone-message p {
+  line-height: 1.7;
+  margin-bottom: 20px;
+  color: #5d6483;
+  font-size: 16px;
+}
+
+.empty-timezone-message svg {
+  vertical-align: middle;
+  margin: 0 3px;
+}
+
+.welcome-benefits {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 30px;
+  flex-wrap: wrap;
+}
+
+.benefit-item {
+  flex: 1;
+  min-width: 140px;
+  padding: 15px;
+  margin: 10px;
+  border-radius: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: rgba(230, 235, 245, 0.7);
+  /* Light blue-gray */
+  border: 1px solid rgba(155, 163, 194, 0.3);
+  /* Light version of #9ba3c2 */
+}
+
+.benefit-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+}
+
+.benefit-icon {
+  background-color: rgba(182, 192, 218, 0.3);
+  /* Light version of #b6c0da */
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.benefit-text {
+  font-size: 14px;
+  color: #464b64;
+}
+
+.donation-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(253, 245, 230, 0.8);
+  /* Pastel cream background */
+  color: #6B7280;
+  /* Soft gray text */
+  text-align: center;
+  padding: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 14px;
+  backdrop-filter: blur(4px);
+  z-index: 900;
+  /* Below the settings button */
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.donation-footer a {
+  color: #94A3B8;
+  /* Pastel blue link */
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.donation-footer a:hover {
+  color: #64748B;
+  /* Slightly darker when hovered */
+  text-decoration: underline;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Adjust settings button position to avoid overlapping with footer */
+#settingsButton {
+  bottom: 70px;
+  /* Adjust this value based on your footer height */
+}
