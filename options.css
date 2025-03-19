@@ -231,3 +231,22 @@ input:focus+.toggle-slider {
 input:checked+.toggle-slider:before {
     transform: translateX(26px);
 }
+
+.donation-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(253, 245, 230, 0.8);
+    /* Pastel cream background */
+    color: #6B7280;
+    /* Soft gray text */
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    backdrop-filter: blur(4px);
+    z-index: 900;
+    /* Below the settings button */
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+  }

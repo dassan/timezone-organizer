@@ -12,10 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('addButton').addEventListener('click', showAddForm);
   document.getElementById('cancelButton').addEventListener('click', hideAddForm);
   document.getElementById('saveButton').addEventListener('click', saveNewTimeZone);
-  document.getElementById('backButton').addEventListener('click', function() {
-    // Navigate to the new tab page
-    window.location.href = 'newtab.html';
-  });
   // Save the donation message setting
   document.getElementById('showDonationMessage').addEventListener('change', function() {
     chrome.storage.sync.set({ showDonationMessage: this.checked });

@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     } else {
       console.log('Chrome storage API not available. Not showing donation message.');
-      updateDonationFooter(false);
+      updateDonationFooter(true);
     }
   }
 

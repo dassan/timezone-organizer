@@ -38,6 +38,7 @@ h1 {
   /* Take full height */
   overflow-x: auto;
   /* Allow horizontal scrolling if needed */
+  overflow-y: hidden;
   gap: 0;
 }
 
@@ -186,7 +187,6 @@ h1 {
   color: #6B7280;
   /* Soft gray text */
   text-align: center;
-  padding: 10px;
   font-family: 'Inter', sans-serif;
   font-size: 14px;
   backdrop-filter: blur(4px);

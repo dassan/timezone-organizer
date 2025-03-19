@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>TimeZone Organizer - Options</title>
   <link rel="stylesheet" href="options.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -31,12 +32,7 @@
       <!-- Time zones will be populated by JavaScript -->
     </div>
     
-    <div id="timeZonesList">
-      <!-- Time zones will be populated by JavaScript -->
-    </div>
-    
     <div style="margin-top: 20px; display: flex; justify-content: space-between;">
-      <button id="backButton" class="btn btn-secondary">Back to Dashboard</button>
       <button id="addButton" class="btn btn-primary">Add Time Zone</button>
     </div>
     
@@ -56,7 +52,6 @@
       
       <div class="form-group">
         <label for="label">Label (3-letter code):</label>
-        <!-- <input type="text" id="label" placeholder="e.g. NYC" maxlength="3" oninput="updateColorPreview()"> -->
         <input type="text" id="label" placeholder="e.g. NYC" maxlength="3">
       </div>
             
@@ -64,6 +59,9 @@
         <button id="cancelButton" class="btn btn-secondary">Cancel</button>
         <button id="saveButton" class="btn btn-primary">Save</button>
       </div>
+    </div>
+    <div id="donation-footer" class="donation-footer">
+      <p>Timezone Organizer will always be free! If it's helping you stay connected across time zones, consider <a href="#" id="buyMeCoffeeLink">buying me a coffee</a> ☕ to fuel future updates. Thank you for your support!</p>
     </div>
   </div>
   
