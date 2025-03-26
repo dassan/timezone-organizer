@@ -19,9 +19,14 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Load the donation message setting
-  chrome.storage.sync.get({ showDonationMessage: true }, function(data) {
-    document.getElementById('showDonationMessage').checked = data.showDonationMessage;
-  });
+  if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
+    chrome.storage.sync.get({ showDonationMessage: true }, function(data) {
+      document.getElementById('showDonationMessage').checked = data.showDonationMessage;
+    });
+  } else {
+    console.log('Chrome storage API not available. Showing donation message.');
+    document.getElementById('showDonationMessage').checked = true;
+  }
 
   // Add event listener for the hour format toggle
   document.getElementById('hour24Toggle').addEventListener('change', function() {
