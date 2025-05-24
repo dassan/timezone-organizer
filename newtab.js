@@ -1,3 +1,12 @@
+// Review banner config
+const REVIEW_CONFIG = {
+  minUsageDays: 3,           // At least 3 days of usage
+  minTabOpens: 15,           // At least 15 new tabs opened
+  minTimezonesAdded: 1,      // At least 1 added time zone
+  cooldownDays: 30,          // Postpone 30 days by user decision
+  maxShowCount: 3            // Maximum of 3 attempts
+};
+
 document.addEventListener('DOMContentLoaded', function() {
   // Default time zones in case nothing is stored yet
   const defaultTimeZones = [];
@@ -20,6 +29,9 @@ document.addEventListener('DOMContentLoaded', function() {
   // Load donation message setting and initialize coffee link
   loadDonationMessageSetting();
   initBuyMeCoffeeLink();
+
+  // Init review banner parameters
+  initReviewRequestSystem();
 
   // Load the donation message visibility setting
   function loadDonationMessageSetting() {
@@ -349,3 +361,161 @@ document.addEventListener('DOMContentLoaded', function() {
     loadTimeZones();
   }, 60000); // Update every minute
 });
+
+// Review request implementation
+function initReviewRequestSystem() {
+  if (typeof chrome === 'undefined' || !chrome.storage || !chrome.storage.sync) {
+    return;
+  }
+
+  // Register the visit
+  recordTabOpen();
+  
+  // Verify if the banner should appear
+  checkAndShowReviewRequest();
+}
+
+function recordTabOpen() {
+  chrome.storage.sync.get({
+    firstUseDate: null,
+    tabOpenCount: 0,
+    lastReviewRequest: null,
+    reviewRequestCount: 0,
+    reviewRequestDismissed: false,
+    reviewCompleted: false
+  }, function(data) {
+    const now = new Date().getTime();
+    const updates = {
+      tabOpenCount: data.tabOpenCount + 1
+    };
+
+    // if this is the first time, register the installation date
+    if (!data.firstUseDate) {
+      updates.firstUseDate = now;
+    }
+
+    chrome.storage.sync.set(updates);
+  });
+}
+
+function checkAndShowReviewRequest() {
+  chrome.storage.sync.get({
+    firstUseDate: null,
+    tabOpenCount: 0,
+    timeZones: [],
+    lastReviewRequest: null,
+    reviewRequestCount: 0,
+    reviewRequestDismissed: false,
+    reviewCompleted: false
+  }, function(data) {
+    
+    // If the review was done or dismissed, do not show
+    if (data.reviewCompleted || data.reviewRequestDismissed) {
+      return;
+    }
+
+    // If the banner was already displayed many times, do not insist
+    if (data.reviewRequestCount >= REVIEW_CONFIG.maxShowCount) {
+      return;
+    }
+
+    const now = new Date().getTime();
+    const daysSinceFirstUse = data.firstUseDate ? 
+      (now - data.firstUseDate) / (1000 * 60 * 60 * 24) : 0;
+
+    const daysSinceLastRequest = data.lastReviewRequest ? 
+      (now - data.lastReviewRequest) / (1000 * 60 * 60 * 24) : 999;
+
+    const shouldShow = 
+      daysSinceFirstUse >= REVIEW_CONFIG.minUsageDays &&
+      data.tabOpenCount >= REVIEW_CONFIG.minTabOpens &&
+      data.timeZones.length >= REVIEW_CONFIG.minTimezonesAdded &&
+      daysSinceLastRequest >= REVIEW_CONFIG.cooldownDays;
+
+    if (shouldShow) {
+      // Wait some seconds to load the page
+      setTimeout(() => {
+        showReviewRequest();
+        
+        chrome.storage.sync.set({
+          lastReviewRequest: now,
+          reviewRequestCount: data.reviewRequestCount + 1
+        });
+      }, 1500);
+    }
+  });
+}
+
+function showReviewRequest() {
+  if (document.getElementById('reviewRequestBanner')) {
+    return;
+  }
+
+  const banner = document.createElement('div');
+  banner.id = 'reviewRequestBanner';
+  banner.className = 'review-request-banner';
+  
+  banner.innerHTML = `
+    <div class="review-banner-content">
+      <div class="review-banner-text">
+        <div class="review-banner-emoji">⭐</div>
+        <div class="review-banner-message">
+          <strong>Enjoying TimeZone Organizer?</strong>
+          <span>Help others discover it with a quick review!</span>
+        </div>
+      </div>
+      <div class="review-banner-actions">
+        <button id="reviewBtn" class="review-btn review-btn-primary">
+          Rate Extension
+        </button>
+        <button id="laterBtn" class="review-btn review-btn-secondary">
+          Maybe Later
+        </button>
+        <button id="dismissBtn" class="review-btn review-btn-text">
+          Don't Ask Again
+        </button>
+      </div>
+    </div>
+  `;
+
+  document.body.appendChild(banner);
+
+  document.getElementById('reviewBtn').addEventListener('click', function() {
+    const extensionId = chrome.runtime.id;
+    const reviewUrl = `https://chrome.google.com/webstore/detail/${extensionId}/reviews`;
+    window.open(reviewUrl, '_blank');
+    
+    chrome.storage.sync.set({ reviewCompleted: true });
+    
+    removeBanner();
+  });
+
+  document.getElementById('laterBtn').addEventListener('click', function() {
+    removeBanner();
+  });
+
+  document.getElementById('dismissBtn').addEventListener('click', function() {
+    chrome.storage.sync.set({ reviewRequestDismissed: true });
+    removeBanner();
+  });
+
+  // Auto remove banner after 12 seconds if user takes no action
+  setTimeout(() => {
+    if (document.getElementById('reviewRequestBanner')) {
+      removeBanner();
+    }
+  }, 12000);
+
+  function removeBanner() {
+    const banner = document.getElementById('reviewRequestBanner');
+    if (banner) {
+      banner.style.animation = 'slideOutToRight 0.3s ease-in forwards';
+      setTimeout(() => {
+        if (banner.parentNode) {
+          banner.parentNode.removeChild(banner);
+        }
+      }, 300);
+    }
+  }
+
+}

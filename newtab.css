@@ -219,3 +219,133 @@ h1 {
   bottom: 70px;
   /* Adjust this value based on your footer height */
 }
+
+.review-request-banner {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 16px 20px;
+  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  z-index: 1001;
+  max-width: 320px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  animation: slideInFromRight 0.5s ease-out;
+  font-family: 'Inter', sans-serif;
+}
+
+@keyframes slideInFromRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.review-banner-content {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.review-banner-text {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.review-banner-emoji {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.review-banner-message {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.review-banner-message strong {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.review-banner-message span {
+  font-size: 13px;
+  opacity: 0.9;
+}
+
+.review-banner-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.review-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Inter', sans-serif;
+}
+
+.review-btn-primary {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.review-btn-primary:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.review-btn-secondary {
+  background: transparent;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.review-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.review-btn-text {
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border: none;
+  padding: 8px 12px;
+  text-decoration: underline;
+}
+
+.review-btn-text:hover {
+  color: white;
+}
+
+@media (max-width: 480px) {
+  .review-request-banner {
+    left: 20px;
+    right: 20px;
+    max-width: none;
+  }
+}
+
+@keyframes slideOutToRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
