@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
       coffeeLink.addEventListener('click', function(e) {
         e.preventDefault();
         // Open your Buy Me a Coffee link in a new tab
-        window.open('https://www.paypal.com/donate/?business=68EYDXTTXFA2G&no_recurring=0&item_name=Timezone+Organizer+will+always+be+free%21+Thank+you+for+your+support%21&currency_code=USD', '_blank');
+        window.open('https://bit.ly/timezone-organizer-coffee', '_blank');
         
         // Optional: Hide the message after clicking (user has seen it)
         if (typeof chrome !== 'undefined' && chrome.storage && chrome.storage.sync) {
