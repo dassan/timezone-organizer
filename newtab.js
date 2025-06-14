@@ -16,6 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Global variable to store the hour format
   let hour12 = false; // This will be set by loadHourFormat()
+
+  // Global variables for scroll feature
+  let hourOffset = 0;
+  let isMouseOverTime = false;
   
   // Load time zones and hour format
   loadHourFormat();
@@ -178,6 +182,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     container.innerHTML = ''; // Clear existing content
+    hourOffset = 0;
+    isMouseOverTime = false;
 
     // Check if timeZones array is empty
     if (timeZones.length === 0) {
@@ -213,6 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
       // Create time zone element
       const zoneElement = document.createElement('div');
       zoneElement.className = 'timezone';
+      zoneElement.setAttribute('data-timezone', zone.timezone);
 
       // Get current time in this zone
       const now = new Date();
@@ -238,21 +245,12 @@ document.addEventListener('DOMContentLoaded', function() {
       const dateOptions = {
         timeZone: zone.timezone,
         weekday: 'short',
+        month: 'short',
         day: 'numeric'
       };
       
       const dateString = now.toLocaleDateString('en-US', dateOptions);
-           
-      // Get day indicator (1st, 2nd, etc.)
-      const day = new Date(now.toLocaleDateString('en-US', {
-        timeZone: zone.timezone,
-        year: 'numeric',
-        month: 'numeric',
-        day: 'numeric'
-      })).getDate();
-      
-      const dayIndicator = getDayIndicator(day);
-      
+
       // Group all content in the center
       if (hour12) {
         let hourAMPM = hours;
@@ -267,7 +265,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <div class="content-group">
             <div class="timezone-time">${String(hourAMPM).padStart(2, '0')}<br>${minutes}</div>
             <div class="timezone-time-period">${period}</div>
-            <div class="day-indicator">${dateString.split(',')[0]}. ${dayIndicator}</div>
+            <div class="day-indicator">${dateString}</div>
             <div class="timezone-name">${zone.name}</div>
           </div>
         `;
@@ -275,7 +273,7 @@ document.addEventListener('DOMContentLoaded', function() {
         zoneElement.innerHTML = `
           <div class="content-group">
             <div class="timezone-time">${hours}<br>${minutes}</div>
-            <div class="day-indicator">${dateString.split(',')[0]}. ${dayIndicator}</div>
+            <div class="day-indicator">${dateString}</div>
             <div class="timezone-name">${zone.name}</div>
           </div>
         `;
@@ -283,6 +281,123 @@ document.addEventListener('DOMContentLoaded', function() {
 
       container.appendChild(zoneElement);
     });
+
+    setupScrollFeature();
+  }
+
+  // Setup scroll listeners
+  function setupScrollFeature() {
+    const timeElements = document.querySelectorAll('.timezone-time');
+
+    timeElements.forEach(element => {
+      // Mouse hover detection
+      element.addEventListener('mouseenter', () => {
+        isMouseOverTime = true;
+        element.style.cursor = 'ns-resize';
+      });
+
+      element.addEventListener('mouseleave', () => {
+        isMouseOverTime = false;
+        element.style.cursor = 'default';
+      });
+
+      // Scroll handling
+      element.addEventListener('wheel', (e) => {
+        if (isMouseOverTime) {
+          e.preventDefault();
+          hourOffset += e.deltaY > 0 ? -1 : 1; // scroll up = +1 hour, down = -1 hour
+          updateTimesWithOffset();
+        }
+      });
+    });
+  }
+
+  // Update times with offset
+  function updateTimesWithOffset() {
+    const timeElements = document.querySelectorAll('.timezone-time');
+    const periodElements = document.querySelectorAll('.timezone-time-period');
+    const dayElements = document.querySelectorAll('.day-indicator');
+
+    timeElements.forEach((timeEl, index) => {
+      // Get timezone from the parent timezone div's data or reconstruct from your existing logic
+      const timezoneDiv = timeEl.closest('.timezone');
+      const timezone = getTimezoneFromElement(timezoneDiv);
+
+      if (timezone) {
+        const now = new Date();
+        now.setHours(now.getHours() + hourOffset);
+
+        const timeInZone = new Date(now.toLocaleString("en-US", {timeZone: timezone}));
+
+        const time24 = timeInZone.toLocaleTimeString('en-US', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
+        });
+
+        // Format time to match the design (hour on top line, minute on bottom)
+        const [hours, minutes] = time24.split(':');
+        let period = 'AM';
+
+        // Group all content in the center
+        if (hour12 && hours > 12) {
+          hours = hours - 12;
+          period = 'PM';
+        }
+
+        timeEl.innerHTML = `${String(hours).padStart(2, '0')}<br>${String(minutes)}`;
+        if (periodElements[index]) {
+          periodElements[index].textContent = period;
+        }
+
+        if (dayElements[index]) {
+          const dayString = timeInZone.toLocaleDateString('en-US', {
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric'
+          });
+          dayElements[index].textContent = dayString;
+        }
+      }
+    });
+
+    // Show offset indicator
+    showOffsetIndicator();
+  }
+
+  // Helper function to get timezone from element
+  function getTimezoneFromElement(timezoneDiv) {
+    return timezoneDiv.dataset.timezone;
+  }
+
+  // Simple offset indicator
+  function showOffsetIndicator() {
+    let indicator = document.getElementById('offset-indicator');
+    
+    if (hourOffset === 0) {
+      if (indicator) indicator.remove();
+      return;
+    }
+    
+    if (!indicator) {
+      indicator = document.createElement('div');
+      indicator.id = 'offset-indicator';
+      indicator.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0,0,0,0.8);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 14px;
+        z-index: 1000;
+      `;
+      document.body.appendChild(indicator);
+    }
+    
+    indicator.textContent = `${hourOffset > 0 ? '+' : ''}${hourOffset}h`;
   }
   
   // Add a settings button to open options page
@@ -345,17 +460,6 @@ document.addEventListener('DOMContentLoaded', function() {
     container.appendChild(settingsButton);
   }
     
-  // Helper function to get day indicator (1st, 2nd, 3rd, etc.)
-  function getDayIndicator(day) {
-    if (day > 3 && day < 21) return day + 'th';
-    switch (day % 10) {
-      case 1: return day + 'st';
-      case 2: return day + 'nd';
-      case 3: return day + 'rd';
-      default: return day + 'th';
-    }
-  }
-  
   // Update every minute instead of every second to reduce resource usage
   setInterval(function() {
     loadTimeZones();
