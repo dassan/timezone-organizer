@@ -256,7 +256,9 @@ document.addEventListener('DOMContentLoaded', function() {
         let hourAMPM = hours;
         let period = 'AM';
 
-        if (hours > 12) {
+        if (hours == 12) {
+          period = 'PM'
+        } else if (hours > 12) {
           hourAMPM = hours - 12;
           period = 'PM';
         }
@@ -328,7 +330,6 @@ document.addEventListener('DOMContentLoaded', function() {
         now.setHours(now.getHours() + hourOffset);
 
         const timeInZone = new Date(now.toLocaleString("en-US", {timeZone: timezone}));
-
         const time24 = timeInZone.toLocaleTimeString('en-US', {
           hour: '2-digit',
           minute: '2-digit',
@@ -336,11 +337,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Format time to match the design (hour on top line, minute on bottom)
-        const [hours, minutes] = time24.split(':');
+        let [hours, minutes] = time24.split(':');
         let period = 'AM';
 
         // Group all content in the center
-        if (hour12 && hours > 12) {
+        if (hour12 && hours == 12) {
+          period = 'PM';
+        } else if (hour12 && hours > 12) {
           hours = hours - 12;
           period = 'PM';
         }
